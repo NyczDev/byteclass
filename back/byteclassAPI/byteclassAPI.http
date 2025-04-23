@@ -1,0 +1,6 @@
+@byteclassAPI_HostAddress = http://localhost:5247
+
+GET {{byteclassAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
