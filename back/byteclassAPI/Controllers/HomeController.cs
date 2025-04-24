@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace byteclassAPI.Controllers
+namespace byteclassAPI.Controllers.HomeController
 {
     [ApiController]
     [Route("")]
