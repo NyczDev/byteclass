@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\DEV-WEB-AVANCADO\\Projeto Escola\\byteclass\\back\\byteclassAPI\\byteclassAPI.csproj": {}
+    "D:\\Usuários\\Igor\\Desktop\\Programacao\\byteclass\\byteclass\\back\\byteclassAPI\\byteclassAPI.csproj": {}
   },
   "projects": {
-    "C:\\DEV-WEB-AVANCADO\\Projeto Escola\\byteclass\\back\\byteclassAPI\\byteclassAPI.csproj": {
+    "D:\\Usuários\\Igor\\Desktop\\Programacao\\byteclass\\byteclass\\back\\byteclassAPI\\byteclassAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\DEV-WEB-AVANCADO\\Projeto Escola\\byteclass\\back\\byteclassAPI\\byteclassAPI.csproj",
+        "projectUniqueName": "D:\\Usuários\\Igor\\Desktop\\Programacao\\byteclass\\byteclass\\back\\byteclassAPI\\byteclassAPI.csproj",
         "projectName": "byteclassAPI",
-        "projectPath": "C:\\DEV-WEB-AVANCADO\\Projeto Escola\\byteclass\\back\\byteclassAPI\\byteclassAPI.csproj",
-        "packagesPath": "C:\\Users\\igork\\.nuget\\packages\\",
-        "outputPath": "C:\\DEV-WEB-AVANCADO\\Projeto Escola\\byteclass\\back\\byteclassAPI\\obj\\",
+        "projectPath": "D:\\Usuários\\Igor\\Desktop\\Programacao\\byteclass\\byteclass\\back\\byteclassAPI\\byteclassAPI.csproj",
+        "packagesPath": "C:\\Users\\izapf\\.nuget\\packages\\",
+        "outputPath": "D:\\Usuários\\Igor\\Desktop\\Programacao\\byteclass\\byteclass\\back\\byteclassAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\igork\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\izapf\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -87,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.311/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
