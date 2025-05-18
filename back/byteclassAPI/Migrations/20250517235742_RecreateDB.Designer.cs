@@ -11,8 +11,8 @@ using byteclassAPI.Data;
 namespace byteclassAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250426141507_CreateAdminAlunoProfessor")]
-    partial class CreateAdminAlunoProfessor
+    [Migration("20250517235742_RecreateDB")]
+    partial class RecreateDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
