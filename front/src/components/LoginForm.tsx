@@ -4,27 +4,36 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const LoginForm = () => {
   const [cpf, setCpf] = useState('');
-  const [senha, setSenha] = useState('');
+  const [dataNasc, setDatanasc] = useState('');
   const [erro, setErro] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const usuario = await login(cpf, senha);
-      
+      const usuario = await login(cpf, dataNasc);
+
       localStorage.setItem('role', usuario.role);
 
-      if (usuario.role === 'aluno') {
-        navigate('/alunos');
-      } else if (usuario.role === 'professor') {
-        navigate('/professores');
-      } else if (usuario.role === 'admin') {
-        navigate('/dashboard-admin');
-      } else {
-        navigate('/');
+      switch (usuario.role) {
+        case 'aluno':
+          navigate('/alunos');
+          window.location.reload();
+          break;
+        case 'professor':
+          navigate('/professores');
+          window.location.reload();
+          break;
+        case 'admin':
+          navigate('/dashboard-admin');
+          window.location.reload();
+          break;
+        default:
+          navigate('/');
+          break;
       }
     } catch (err: any) {
+      localStorage.removeItem('role');
       setErro(err.message || 'Credenciais inválidas');
     }
   };
@@ -35,11 +44,7 @@ const LoginForm = () => {
       style={{ backgroundImage: 'url("/fundo-montanhas.jpg")' }}
     >
       <header className="bg-white px-20 py-1 shadow-md flex items-center">
-        <img
-          src="/logo.png"
-          alt="Logo ByteClass"
-          className="h-20 mr-2"
-        />
+        <img src="/logo.png" alt="Logo ByteClass" className="h-20 mr-2" />
       </header>
 
       <div className="flex justify-center items-center mt-40">
@@ -51,11 +56,9 @@ const LoginForm = () => {
             Bem-vindo de volta!
           </h2>
 
-          <label className="block mb-2 text-sm font-semibold text-black">
-            CPF
-          </label>
+          <label className="block mb-2 text-sm font-semibold text-black">CPF</label>
           <input
-            type="cpf"
+            type="text"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
             className="w-full mb-4 px-4 py-2 rounded bg-gray-200 placeholder-gray-500 text-sm focus:outline-none"
@@ -63,13 +66,11 @@ const LoginForm = () => {
             required
           />
 
-          <label className="block mb-2 text-sm font-semibold text-black">
-            Senha
-          </label>
+          <label className="block mb-2 text-sm font-semibold text-black">Senha</label>
           <input
             type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            value={dataNasc}
+            onChange={(e) => setDatanasc(e.target.value)}
             className="w-full mb-6 px-4 py-2 rounded bg-gray-200 placeholder-gray-500 text-sm focus:outline-none"
             placeholder="Digite sua senha"
             required
@@ -82,9 +83,7 @@ const LoginForm = () => {
             Entrar
           </button>
 
-          {erro && (
-            <p className="text-red-600 mt-4 text-sm text-center">{erro}</p>
-          )}
+          {erro && <p className="text-red-600 mt-4 text-sm text-center">{erro}</p>}
 
           <div className="flex justify-between mt-4 text-xs text-gray-600">
             <Link to="/cadastro" className="hover:underline">

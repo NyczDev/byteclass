@@ -13,11 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("byteclassAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5904cc84069e372fca79fccfa85899cc8219c40")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
->>>>>>> 15276605681fa2467c5bb903fa9b9021a18c53b9
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cb1320178742e2b750d7e0ffd3ddd4aac0081381")]
 [assembly: System.Reflection.AssemblyProductAttribute("byteclassAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("byteclassAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -4,8 +4,20 @@ import ProfessoresPage from './Pages/ProfessoresPage';
 import AdminPage from './Pages/AdminPage';
 import LoginPage from './Pages/LoginPage';
 
+import { ReactNode } from 'react';
+
+interface RequireAuthProps {
+  role: string;
+  allowedRole: string;
+  children: ReactNode;
+}
+
+function RequireAuth({ role, allowedRole, children }: RequireAuthProps) {
+  return role === allowedRole ? children : <Navigate to="/" replace />;
+}
+
 function App() {
-  const role = localStorage.getItem('role');
+  const role = localStorage.getItem('role') ?? '';
 
   return (
     <Router>
@@ -14,22 +26,27 @@ function App() {
         <Route
           path="/alunos"
           element={
-            role === 'aluno' ? <AlunosPage /> : <Navigate to="/" replace />
+            <RequireAuth role={role} allowedRole="aluno">
+              <AlunosPage />
+            </RequireAuth>
           }
         />
         <Route
           path="/professores"
           element={
-            role === 'professor' ? <ProfessoresPage /> : <Navigate to="/" replace />
+            <RequireAuth role={role} allowedRole="professor">
+              <ProfessoresPage />
+            </RequireAuth>
           }
         />
         <Route
           path="/dashboard-admin"
           element={
-            role === 'admin' ? <AdminPage /> : <Navigate to="/" replace />
+            <RequireAuth role={role} allowedRole="admin">
+              <AdminPage />
+            </RequireAuth>
           }
         />
-        {/* rota coringa */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
