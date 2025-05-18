@@ -3,7 +3,7 @@ import { login } from '../services/authService';
 import { useNavigate, Link } from 'react-router-dom';
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
+  const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const LoginForm = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const usuario = await login(email, senha);
+      const usuario = await login(cpf, senha);
 
       localStorage.setItem('token', usuario.token);
       localStorage.setItem('role', usuario.role);
@@ -53,14 +53,14 @@ const LoginForm = () => {
           </h2>
 
           <label className="block mb-2 text-sm font-semibold text-black">
-            Email
+            CPF
           </label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="cpf"
+            value={cpf}
+            onChange={(e) => setCpf(e.target.value)}
             className="w-full mb-4 px-4 py-2 rounded bg-gray-200 placeholder-gray-500 text-sm focus:outline-none"
-            placeholder="Digite seu email"
+            placeholder="Digite seu CPF"
             required
           />
 

@@ -7,9 +7,9 @@ export interface Usuario {
 
 const API_URL = 'http://localhost:3000/api/login';
 
-export async function login(email: string, senha: string): Promise<Usuario> {
+export async function login(cpf: string, senha: string): Promise<Usuario> {
   try {
-    const response = await axios.post<Usuario>(API_URL, { email, senha });
+    const response = await axios.post<Usuario>(API_URL, { cpf, senha });
     return response.data;
   } catch (error: any) {
     throw new Error(
