@@ -12,8 +12,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const usuario = await login(cpf, senha);
-
-      localStorage.setItem('token', usuario.token);
+      
       localStorage.setItem('role', usuario.role);
 
       if (usuario.role === 'aluno') {

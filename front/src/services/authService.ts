@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export interface Usuario {
-  token: string;
   role: 'aluno' | 'professor' | 'admin' | string;
 }
 
