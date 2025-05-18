@@ -1,27 +1,39 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './App.css'
-import Sidebar from './components/Sidebar'
-import Header from './components/Header'
-import Dashboard from './Pages/Dashboard'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AlunosPage from './Pages/AlunosPage';
+import ProfessoresPage from './Pages/ProfessoresPage';
+import AdminPage from './Pages/AdminPage';
+import LoginPage from './Pages/LoginPage';
 
 function App() {
+  const role = localStorage.getItem('role');
+
   return (
     <Router>
-      <div className="flex h-screen">
-        <Sidebar /> {/* Sidebar */}
-        
-        <div className="flex-1 flex flex-col">
-          <Header /> {/* Header */}
-
-          <main className="p-6">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-            </Routes>
-          </main>
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route
+          path="/alunos"
+          element={
+            role === 'aluno' ? <AlunosPage /> : <Navigate to="/" replace />
+          }
+        />
+        <Route
+          path="/professores"
+          element={
+            role === 'professor' ? <ProfessoresPage /> : <Navigate to="/" replace />
+          }
+        />
+        <Route
+          path="/dashboard-admin"
+          element={
+            role === 'admin' ? <AdminPage /> : <Navigate to="/" replace />
+          }
+        />
+        {/* rota coringa */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
