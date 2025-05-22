@@ -21,12 +21,12 @@ namespace byteclassAPI.Controllers
 
 
         [HttpGet] // LISTAR PROFESSORES GET: /admin/professores
-        public async Task<ActionResult<IEnumerable<Professor>>> ListarProfessores([FromHeader(Name = "X-Role")] string role)
+        public async Task<ActionResult<IEnumerable<Professor>>> ListarProfessores([FromHeader(Name = "X-Role")] string? role)
         {
 
             // valida a role
             if (!IsAdmin(role))
-                return Forbid("Apenas administradores podem listar professores.");
+                return StatusCode(403, "Apenas administradores podem listar professores.");
 
             var professores = await _appDbContext.Professores.ToListAsync();
             return Ok(professores);
@@ -34,25 +34,25 @@ namespace byteclassAPI.Controllers
 
 
         [HttpGet("{id}")] // PROFESSOR POR ID GET: /admin/professores/{id}
-        public async Task<ActionResult<Professor>> ListarProfessorPorId(int id, [FromHeader(Name = "X-Role")] string role)
+        public async Task<ActionResult<Professor>> ListarProfessorPorId(int id, [FromHeader(Name = "X-Role")] string? role)
         {
             // valida a role
             if (!IsAdmin(role))
-                return Forbid("Apenas administradores podem listar um professor.");
+                return StatusCode(403, "Apenas administradores podem listar um professor.");
 
             var professor = await _appDbContext.Professores.FindAsync(id);
             if (professor == null)
-                return NotFound();
+                return NotFound("Professor não encontrado.");
             return Ok(professor);
         }
 
 
         [HttpPost] // CADASTRAR PROFESSOR POST: /admin/professores
-        public async Task<ActionResult<Professor>> CadastrarProfessor([FromBody] Professor professor, [FromHeader(Name = "X-Role")] string role)
+        public async Task<ActionResult<Professor>> CadastrarProfessor([FromBody] Professor professor, [FromHeader(Name = "X-Role")] string? role)
         {
             // valida a role
             if (!IsAdmin(role))
-                return Forbid("Apenas administradores podem cadastrar professores.");
+                return StatusCode(403, "Apenas administradores podem cadastrar professores.");
 
             // valida todos os campos necessários
             if (!ModelState.IsValid)
@@ -72,11 +72,11 @@ namespace byteclassAPI.Controllers
 
 
         [HttpPut("{id}")] // ALTERAR PROFESSOR PUT: /admin/professores/{id}
-        public async Task<IActionResult> AlterarProfessor(int id, [FromBody] Professor professorAlterado, [FromHeader(Name = "X-Role")] string role)
+        public async Task<IActionResult> AlterarProfessor(int id, [FromBody] Professor professorAlterado, [FromHeader(Name = "X-Role")] string? role)
         {
             // valida a role
             if (!IsAdmin(role))
-                return Forbid("Apenas administradores podem alterar professores.");
+                return StatusCode(403, "Apenas administradores podem alterar professores.");
 
             // valida todos os campos necessários
             if (!ModelState.IsValid)
@@ -84,7 +84,7 @@ namespace byteclassAPI.Controllers
 
             var professorExistente = await _appDbContext.Professores.FindAsync(id);
             if (professorExistente == null)
-                return NotFound();
+                return NotFound("Professor não encontrado.");
 
             // valida cpf ja existente
             if (professorExistente.CPF != professorAlterado.CPF && _appDbContext.Usuarios.Any(u => u.CPF == professorAlterado.CPF))
@@ -102,20 +102,20 @@ namespace byteclassAPI.Controllers
 
 
         [HttpDelete("{id}")] // DELETE: /admin/professores/{id}
-        public async Task<IActionResult> DeleteProfessor(int id, [FromHeader(Name = "X-Role")] string role)
+        public async Task<IActionResult> DeleteProfessor(int id, [FromHeader(Name = "X-Role")] string? role)
         {
             // valida a role
             if (!IsAdmin(role))
-                return Forbid("Apenas administradores podem excluir professores.");
+                return StatusCode(403, "Apenas administradores podem excluir professores.");
 
             var professor = await _appDbContext.Professores.FindAsync(id);
             if (professor == null)
-                return NotFound();
+                return NotFound("Professor não encontrado.");
 
             _appDbContext.Professores.Remove(professor);
             await _appDbContext.SaveChangesAsync();
 
-            return Ok("Professor Removido.");
+            return Ok("Professor removido com sucesso.");
         }
 
     }
