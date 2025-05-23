@@ -4,5 +4,6 @@ namespace byteclassAPI.Models
     {
         public string Especialidade { get; set; } = string.Empty;
         public string Formacao { get; set; } = string.Empty;
+        public List<Materia> Materias { get; set; } = new();
     }
 }
