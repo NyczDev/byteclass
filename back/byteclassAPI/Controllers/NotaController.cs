@@ -70,5 +70,26 @@ namespace byteclassAPI.Controllers
             if (nota == null) return NotFound("Nota não encontrada.");
             return Ok(nota);
         }
+
+        [HttpPut("notas/{notaId}")]
+        public async Task<IActionResult> AlterarNota(int notaId, [FromBody] Nota notaAlterada, [FromHeader(Name = "X-Role")] string? role)
+        {
+            if (!IsAdmin(role) && !IsProf(role))
+                return StatusCode(403, "Apenas administradores e professores podem alterar notas.");
+
+            var notaExistente = await _appDbContext.Notas.FindAsync(notaId);
+            if (notaExistente == null)
+            {
+                return NotFound("Nota não encontrada.");
+            }
+
+            // Atualiza apenas os campos que podem ser alterados
+            notaExistente.Valor = notaAlterada.Valor;
+            notaExistente.Descricao = notaAlterada.Descricao;
+
+            await _appDbContext.SaveChangesAsync();
+
+            return Ok(notaExistente);
+        }
     }
 }
