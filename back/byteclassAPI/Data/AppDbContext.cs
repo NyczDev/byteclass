@@ -14,7 +14,10 @@ namespace byteclassAPI.Data
         public DbSet<Materia> Materias { get; set; }
         public DbSet<Nota> Notas { get; set; }
         public DbSet<Conteudo> Conteudos { get; set; }
+        public DbSet<Frequencia> Frequencias { get; set; }
         public DbSet<Turma> Turmas { get; set; }
+        public DbSet<Atividade> Atividades { get; set; }
+        public DbSet<EntregaAtividade> EntregasAtividades { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +32,9 @@ namespace byteclassAPI.Data
             modelBuilder.Entity<Nota>().ToTable("Notas");
             modelBuilder.Entity<Conteudo>().ToTable("Conteudos");
             modelBuilder.Entity<Turma>().ToTable("Turmas");
+            modelBuilder.Entity<Frequencia>().ToTable("Frequencias");
+            modelBuilder.Entity<Atividade>().ToTable("Atividades");
+            modelBuilder.Entity<EntregaAtividade>().ToTable("EntregasAtividades");
 
 
             modelBuilder.Entity<Admin>().HasBaseType<Usuario>();

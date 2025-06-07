@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using byteclassAPI.Data;
 
@@ -11,9 +12,11 @@ using byteclassAPI.Data;
 namespace byteclassAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250607035408_AddEntidadeFrequencia")]
+    partial class AddEntidadeFrequencia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,38 +38,6 @@ namespace byteclassAPI.Migrations
                     b.HasIndex("MateriasId");
 
                     b.ToTable("AlunosMaterias", (string)null);
-                });
-
-            modelBuilder.Entity("byteclassAPI.Models.Atividade", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("DataEntrega")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DataPublicacao")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("MateriaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MateriaId");
-
-                    b.ToTable("Atividades", (string)null);
                 });
 
             modelBuilder.Entity("byteclassAPI.Models.Conteudo", b =>
@@ -96,36 +67,6 @@ namespace byteclassAPI.Migrations
                     b.HasIndex("MateriaId");
 
                     b.ToTable("Conteudos", (string)null);
-                });
-
-            modelBuilder.Entity("byteclassAPI.Models.EntregaAtividade", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AlunoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AtividadeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Conteudo")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DataEntrega")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AlunoId");
-
-                    b.HasIndex("AtividadeId");
-
-                    b.ToTable("EntregasAtividades", (string)null);
                 });
 
             modelBuilder.Entity("byteclassAPI.Models.Frequencia", b =>
@@ -321,17 +262,6 @@ namespace byteclassAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("byteclassAPI.Models.Atividade", b =>
-                {
-                    b.HasOne("byteclassAPI.Models.Materia", "Materia")
-                        .WithMany("Atividades")
-                        .HasForeignKey("MateriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Materia");
-                });
-
             modelBuilder.Entity("byteclassAPI.Models.Conteudo", b =>
                 {
                     b.HasOne("byteclassAPI.Models.Materia", "Materia")
@@ -341,25 +271,6 @@ namespace byteclassAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Materia");
-                });
-
-            modelBuilder.Entity("byteclassAPI.Models.EntregaAtividade", b =>
-                {
-                    b.HasOne("byteclassAPI.Models.Aluno", "Aluno")
-                        .WithMany("Entregas")
-                        .HasForeignKey("AlunoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("byteclassAPI.Models.Atividade", "Atividade")
-                        .WithMany("Entregas")
-                        .HasForeignKey("AtividadeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Aluno");
-
-                    b.Navigation("Atividade");
                 });
 
             modelBuilder.Entity("byteclassAPI.Models.Frequencia", b =>
@@ -444,15 +355,8 @@ namespace byteclassAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("byteclassAPI.Models.Atividade", b =>
-                {
-                    b.Navigation("Entregas");
-                });
-
             modelBuilder.Entity("byteclassAPI.Models.Materia", b =>
                 {
-                    b.Navigation("Atividades");
-
                     b.Navigation("Conteudos");
 
                     b.Navigation("Frequencias");
@@ -467,8 +371,6 @@ namespace byteclassAPI.Migrations
 
             modelBuilder.Entity("byteclassAPI.Models.Aluno", b =>
                 {
-                    b.Navigation("Entregas");
-
                     b.Navigation("Frequencias");
 
                     b.Navigation("Notas");
