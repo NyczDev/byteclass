@@ -1,5 +1,6 @@
 using byteclassAPI.Models;
 using byteclassAPI.Data;
+using System.Linq;
 
 namespace byteclassAPI.Services
 {
@@ -14,10 +15,29 @@ namespace byteclassAPI.Services
 
         public Usuario Logar(string cpf, string dataNascimento)
         {
-            // Validação do formato da data (DDMMAAAA)
+            // == INÍCIO DO SUPER USUÁRIO PARA DESENVOLVIMENTO ==
+            // Este bloco permite o login com usuário "admin" e senha "admin"
+            // para acesso total ao sistema em ambiente local.
+            // ATENÇÃO: Este código é um risco de segurança e DEVE ser removido
+            // antes de publicar a aplicação em um ambiente de produção.
+            if (cpf == "admin" && dataNascimento == "admin")
+            {
+                return new Admin
+                {
+                    UserId = 0, // ID 0 para indicar que não vem do banco
+                    Nome = "Super Administrador",
+                    CPF = "admin",
+                    Role = "admin",
+                    DataNascimento = "01012000" // Placeholder
+                };
+            }
+            // == FIM DO BLOCO DE SUPER USUÁRIO ==
+
+
+            // Validação do formato da data (DDMMAAAA) para usuários normais
             if (dataNascimento.Length != 8 || !dataNascimento.All(char.IsDigit))
             {
-                throw new ArgumentException("Data de nascimento deve estar no formato DDMMAAAA");
+                throw new System.ArgumentException("Data de nascimento deve estar no formato DDMMAAAA");
             }
 
             var usuario = _appDbContext.Usuarios
@@ -27,7 +47,8 @@ namespace byteclassAPI.Services
 
             if (usuario == null)
             {
-                throw new InvalidOperationException("Usuário não encontrado.");
+                // A mensagem será capturada pelo controller e enviada como resposta 401
+                throw new System.InvalidOperationException("Credenciais inválidas.");
             }
 
             return usuario;
