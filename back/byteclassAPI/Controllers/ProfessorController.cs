@@ -17,7 +17,7 @@ namespace byteclassAPI.Controllers
         }
 
         // método para validar se é Admin ou não
-        private bool IsAdmin(string role) => !string.IsNullOrEmpty(role) && role.ToLower() == "admin";
+        private bool IsAdmin(string? role) => !string.IsNullOrEmpty(role) && role.ToLower() == "admin";
 
 
         [HttpGet] // LISTAR PROFESSORES GET: /admin/professores
@@ -116,6 +116,21 @@ namespace byteclassAPI.Controllers
             await _appDbContext.SaveChangesAsync();
 
             return Ok("Professor removido com sucesso.");
+        }
+
+        [HttpGet("{id}/materias")] // LISTAR MATERIAS DO PROFESSOR GET: /api/professores/{id}/materias
+        public async Task<ActionResult<IEnumerable<Materia>>> ListarMateriasDoProfessor(int id)
+        {
+            var professor = await _appDbContext.Professores
+                                               .Include(p => p.Materias)
+                                               .FirstOrDefaultAsync(p => p.UserId == id);
+
+            if (professor == null)
+            {
+                return NotFound("Professor não encontrado.");
+            }
+
+            return Ok(professor.Materias);
         }
 
     }

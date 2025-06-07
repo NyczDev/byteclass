@@ -17,8 +17,8 @@ namespace byteclassAPI.Controllers
         }
 
         // método para validar se é admin/professor ou não
-        private bool IsAdmin(string role) => !string.IsNullOrEmpty(role) && role.ToLower() == "admin";
-        private bool IsProf(string role) => !string.IsNullOrEmpty(role) && role.ToLower() == "professor";
+        private bool IsAdmin(string? role) => !string.IsNullOrEmpty(role) && role.ToLower() == "admin";
+        private bool IsProf(string? role) => !string.IsNullOrEmpty(role) && role.ToLower() == "professor";
 
         [HttpGet] // LISTAR ALUNOS GET: /admin/alunos
         public async Task<ActionResult<IEnumerable<Aluno>>> ListarAlunos([FromHeader(Name = "X-Role")] string? role)
@@ -48,29 +48,25 @@ namespace byteclassAPI.Controllers
         }
 
 
-        [HttpPost] // CADASTRAR ALUNO POST: /admin/alunos
+        [HttpPost] // CADASTRAR ALUNO -> POST: /admin/alunos
         public async Task<ActionResult<Aluno>> CadastrarAluno([FromBody] Aluno aluno, [FromHeader(Name = "X-Role")] string? role)
         {
-            // valida a role
             if (!IsAdmin(role))
                 return StatusCode(403, "Apenas administradores podem cadastrar alunos.");
 
-            // valida todos os campos necessários
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // valida cpf existente
             if (_appDbContext.Usuarios.Any(u => u.CPF == aluno.CPF))
                 return BadRequest(new { message = "CPF já cadastrado!" });
 
-            aluno.Role = "aluno"; // garante a role correta
+            aluno.Role = "aluno";
 
             _appDbContext.Alunos.Add(aluno);
             await _appDbContext.SaveChangesAsync();
 
             return Ok(aluno);
         }
-
 
         [HttpPut("{id}")] // ALTERAR ALUNO PUT: /admin/alunos/{id}
         public async Task<IActionResult> AlterarAluno(int id, [FromBody] Aluno alunoAlterado, [FromHeader(Name = "X-Role")] string? role)
@@ -117,6 +113,22 @@ namespace byteclassAPI.Controllers
             await _appDbContext.SaveChangesAsync();
 
             return Ok("Aluno removido com sucesso.");
+        }
+
+        [HttpGet("{id}/materias")] // LISTAR MATERIAS DO ALUNO GET: /admin/alunos/{id}/materias
+        public async Task<ActionResult<IEnumerable<Materia>>> ListarMateriasDoAluno(int id)
+        {
+            var aluno = await _appDbContext.Alunos
+                                           .Include(a => a.Materias)
+                                           .ThenInclude(m => m.Professor)
+                                           .FirstOrDefaultAsync(a => a.UserId == id);
+
+            if (aluno == null)
+            {
+                return NotFound("Aluno não encontrado.");
+            }
+
+            return Ok(aluno.Materias);
         }
 
     }

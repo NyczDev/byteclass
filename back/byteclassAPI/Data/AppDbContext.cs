@@ -12,6 +12,10 @@ namespace byteclassAPI.Data
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Professor> Professores { get; set; }
         public DbSet<Materia> Materias { get; set; }
+        public DbSet<Nota> Notas { get; set; }
+        public DbSet<Conteudo> Conteudos { get; set; }
+        public DbSet<Turma> Turmas { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +26,10 @@ namespace byteclassAPI.Data
             modelBuilder.Entity<Aluno>().ToTable("Alunos");
             modelBuilder.Entity<Professor>().ToTable("Professores");
             modelBuilder.Entity<Materia>().ToTable("Materias");
+            modelBuilder.Entity<Nota>().ToTable("Notas");
+            modelBuilder.Entity<Conteudo>().ToTable("Conteudos");
+            modelBuilder.Entity<Turma>().ToTable("Turmas");
+
 
             modelBuilder.Entity<Admin>().HasBaseType<Usuario>();
             modelBuilder.Entity<Aluno>().HasBaseType<Usuario>();
