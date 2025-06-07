@@ -3,6 +3,8 @@ import AlunosPage from './Pages/AlunosPage';
 import ProfessoresPage from './Pages/ProfessoresPage';
 import AdminPage from './Pages/AdminPage';
 import LoginPage from './Pages/LoginPage';
+import TurmasPage from './Pages/TurmasPage';
+import MateriasPage from './Pages/MateriasPage';
 
 import { ReactNode } from 'react';
 
@@ -44,6 +46,22 @@ function App() {
           element={
             <RequireAuth role={role} allowedRole="admin">
               <AdminPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/turmas"
+          element={
+            <RequireAuth role={role} allowedRole="admin">
+              <TurmasPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/materias"
+          element={
+            <RequireAuth role={role} allowedRole="admin">
+              <MateriasPage />
             </RequireAuth>
           }
         />
