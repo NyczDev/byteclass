@@ -1,37 +1,79 @@
-import { useState } from 'react';
-import { createMateria } from '../services/materiaService';
+import { useState, useEffect } from 'react';
+import { Materia, createMateria, updateMateria } from '../services/materiaService';
+import { getProfessores, Professor } from '../services/professorService';
+import { motion } from 'framer-motion';
 
-const MateriaForm = () => {
-  const [nome, setNome] = useState('');
-  const [professorId, setProfessorId] = useState('');
-  const [message, setMessage] = useState('');
+interface MateriaFormProps {
+  materia: Materia | null;
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+const MateriaForm = ({ materia, onClose, onSuccess }: MateriaFormProps) => {
+  const [formData, setFormData] = useState({
+    nome: materia?.nome || '',
+    professorId: materia?.professorId || 0,
+  });
+  const [professores, setProfessores] = useState<Professor[]>([]);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    getProfessores().then(setProfessores);
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: name === 'professorId' ? parseInt(value) : value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.professorId === 0) {
+      setError('Por favor, selecione um professor.');
+      return;
+    }
+    setError('');
     try {
-      await createMateria({ Nome: nome, ProfessorId: parseInt(professorId) });
-      setMessage('Matéria criada com sucesso!');
-      setNome('');
-      setProfessorId('');
-    } catch (error: any) {
-      setMessage('Erro ao criar matéria: ' + error.message);
+      if (materia) {
+        await updateMateria(materia.id, formData);
+      } else {
+        await createMateria(formData);
+      }
+      onSuccess();
+      onClose();
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Ocorreu um erro ao salvar a matéria.');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow">
-      <h3 className="font-bold mb-2">Nova Matéria</h3>
-      <div className="mb-2">
-        <label>Nome:</label>
-        <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} required className="w-full px-2 py-1 border rounded" />
-      </div>
-      <div className="mb-4">
-        <label>ID do Professor:</label>
-        <input type="number" value={professorId} onChange={(e) => setProfessorId(e.target.value)} required className="w-full px-2 py-1 border rounded" />
-      </div>
-      <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Criar</button>
-      {message && <p className="mt-2">{message}</p>}
-    </form>
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
+        className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-bold mb-6">{materia ? 'Editar' : 'Adicionar'} Matéria</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input name="nome" value={formData.nome} onChange={handleChange} placeholder="Nome da Matéria" required className="w-full p-2 border rounded" />
+          <select name="professorId" value={formData.professorId} onChange={handleChange} required className="w-full p-2 border rounded bg-white">
+            <option value={0} disabled>Selecione um professor</option>
+            {professores.map(p => <option key={p.userId} value={p.userId}>{p.nome}</option>)}
+          </select>
+
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <div className="flex justify-end space-x-4 mt-6">
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Cancelar</button>
+            <button type="submit" className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{materia ? 'Salvar' : 'Criar'}</button>
+          </div>
+        </form>
+      </motion.div>
+    </motion.div>
   );
 };
 

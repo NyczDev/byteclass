@@ -1,21 +1,25 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import AlunosPage from './Pages/AlunosPage';
-import ProfessoresPage from './Pages/ProfessoresPage';
-import AdminPage from './Pages/AdminPage';
-import LoginPage from './Pages/LoginPage';
-import TurmasPage from './Pages/TurmasPage';
-import MateriasPage from './Pages/MateriasPage';
-
 import { ReactNode } from 'react';
+ 
+import LoginPage from './Pages/LoginPage';
+import ProfessoresPage from './Pages/ProfessoresPage';
+import MinhasNotasPage from './Pages/MinhasNotasPage';
+import LancarNotasPage from './Pages/LancarNotasPage';
+import AdminPage from './Pages/AdminPage';
+import GerenciamentoProfessores from './Pages/GerenciamentoProfessores';
+import GerenciamentoAlunos from './Pages/GerenciamentoAlunos';
+import GerenciamentoMaterias from './Pages/GerenciamentoMaterias';
+import GerenciamentoTurmas from './Pages/GerenciamentoTurmas';
+import GerenciamentoConteudosPage from './Pages/GerenciamentoConteudosPage'; // Nova página
 
 interface RequireAuthProps {
   role: string;
-  allowedRole: string;
+  allowedRoles: string[];
   children: ReactNode;
 }
 
-function RequireAuth({ role, allowedRole, children }: RequireAuthProps) {
-  return role === allowedRole ? children : <Navigate to="/" replace />;
+function RequireAuth({ role, allowedRoles, children }: RequireAuthProps) {
+  return allowedRoles.includes(role) ? <>{children}</> : <Navigate to="/" replace />;
 }
 
 function App() {
@@ -25,46 +29,25 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route
-          path="/alunos"
-          element={
-            <RequireAuth role={role} allowedRole="aluno">
-              <AlunosPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/professores"
-          element={
-            <RequireAuth role={role} allowedRole="professor">
-              <ProfessoresPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/dashboard-admin"
-          element={
-            <RequireAuth role={role} allowedRole="admin">
-              <AdminPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/turmas"
-          element={
-            <RequireAuth role={role} allowedRole="admin">
-              <TurmasPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/materias"
-          element={
-            <RequireAuth role={role} allowedRole="admin">
-              <MateriasPage />
-            </RequireAuth>
-          }
-        />
+        
+        {/* Rota do Aluno */}
+        <Route path="/minhas-notas" element={<RequireAuth role={role} allowedRoles={['aluno']}><MinhasNotasPage /></RequireAuth>} />
+        
+        {/* Rotas do Professor */}
+        <Route path="/professores" element={<RequireAuth role={role} allowedRoles={['professor']}><ProfessoresPage /></RequireAuth>} />
+        <Route path="/lancar-notas" element={<RequireAuth role={role} allowedRoles={['professor']}><LancarNotasPage /></RequireAuth>}>
+          <Route path=":alunoId" element={<LancarNotasPage />} />
+        </Route>
+        <Route path="/materias/:materiaId/conteudos" element={<RequireAuth role={role} allowedRoles={['professor', 'admin']}><GerenciamentoConteudosPage /></RequireAuth>} />
+
+        {/* Rotas do Admin */}
+        <Route path="/dashboard-admin" element={<RequireAuth role={role} allowedRoles={['admin']}><AdminPage /></RequireAuth>} />
+        <Route path="/admin/professores" element={<RequireAuth role={role} allowedRoles={['admin']}><GerenciamentoProfessores /></RequireAuth>} />
+        <Route path="/admin/alunos" element={<RequireAuth role={role} allowedRoles={['admin']}><GerenciamentoAlunos /></RequireAuth>} />
+        <Route path="/admin/materias" element={<RequireAuth role={role} allowedRoles={['admin']}><GerenciamentoMaterias /></RequireAuth>} />
+        <Route path="/admin/turmas" element={<RequireAuth role={role} allowedRoles={['admin']}><GerenciamentoTurmas /></RequireAuth>} />
+
+        {/* Rota Padrão */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

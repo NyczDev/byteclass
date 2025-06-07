@@ -1,37 +1,65 @@
 import { useState } from 'react';
-import { createTurma } from '../services/turmaService';
+import { Turma, createTurma, updateTurma } from '../services/turmaService';
+import { motion } from 'framer-motion';
 
-const TurmaForm = () => {
-  const [nome, setNome] = useState('');
-  const [periodoLetivo, setPeriodoLetivo] = useState('');
-  const [message, setMessage] = useState('');
+interface TurmaFormProps {
+  turma: Turma | null;
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+const TurmaForm = ({ turma, onClose, onSuccess }: TurmaFormProps) => {
+  const [formData, setFormData] = useState({
+    nome: turma?.nome || '',
+    periodoLetivo: turma?.periodoLetivo || '',
+  });
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     try {
-      await createTurma({ Nome: nome, PeriodoLetivo: periodoLetivo });
-      setMessage('Turma criada com sucesso!');
-      setNome('');
-      setPeriodoLetivo('');
-    } catch (error: any) {
-      setMessage('Erro ao criar turma: ' + error.message);
+      if (turma) {
+        await updateTurma(turma.id, formData);
+      } else {
+        await createTurma(formData);
+      }
+      onSuccess();
+      onClose();
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Ocorreu um erro ao salvar a turma.');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow">
-      <h3 className="font-bold mb-2">Nova Turma</h3>
-      <div className="mb-2">
-        <label>Nome:</label>
-        <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} required className="w-full px-2 py-1 border rounded" />
-      </div>
-      <div className="mb-4">
-        <label>Período Letivo:</label>
-        <input type="text" value={periodoLetivo} onChange={(e) => setPeriodoLetivo(e.target.value)} required className="w-full px-2 py-1 border rounded" />
-      </div>
-      <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Criar</button>
-      {message && <p className="mt-2">{message}</p>}
-    </form>
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
+        className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-bold mb-6">{turma ? 'Editar' : 'Adicionar'} Turma</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input name="nome" value={formData.nome} onChange={handleChange} placeholder="Nome da Turma (Ex: 9º Ano A)" required className="w-full p-2 border rounded" />
+          <input name="periodoLetivo" value={formData.periodoLetivo} onChange={handleChange} placeholder="Período Letivo (Ex: 2025)" required className="w-full p-2 border rounded" />
+          
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <div className="flex justify-end space-x-4 mt-6">
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Cancelar</button>
+            <button type="submit" className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{turma ? 'Salvar' : 'Criar'}</button>
+          </div>
+        </form>
+      </motion.div>
+    </motion.div>
   );
 };
 

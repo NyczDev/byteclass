@@ -1,68 +1,48 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAdmins, Admin } from '../services/adminService';
+import { motion } from 'framer-motion';
 
 const AdminPage = () => {
   const navigate = useNavigate();
-  const [admins, setAdmins] = useState<Admin[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchAdmins = async () => {
-      try {
-        const data = await getAdmins();
-        setAdmins(data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAdmins();
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('role');
+    localStorage.removeItem('userId');
     navigate('/login');
   };
 
+  const cardVariants = {
+    hover: { scale: 1.05, boxShadow: "0px 10px 20px rgba(0,0,0,0.1)" },
+  };
+
+  const managementOptions = [
+    { title: "Gerenciar Professores", path: "/admin/professores", description: "Adicionar, editar e remover professores." },
+    { title: "Gerenciar Alunos", path: "/admin/alunos", description: "Adicionar, editar e remover alunos." },
+    { title: "Gerenciar Matérias", path: "/admin/materias", description: "Adicionar, editar e remover matérias." },
+    { title: "Gerenciar Turmas", path: "/admin/turmas", description: "Adicionar, editar e remover turmas." },
+  ];
+
   return (
-    <div className="p-4 bg-gray-100 min-h-screen">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold">Painel de Administração</h1>
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm transition"
-        >
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">Painel de Administração</h1>
+        <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
           Sair
         </button>
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow-md">
-        <h2 className="text-lg font-semibold mb-3">Lista de Administradores</h2>
-        {loading && <p>Carregando...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        {!loading && !error && (
-          <table className="min-w-full">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="px-4 py-2 text-left">Nome</th>
-                <th className="px-4 py-2 text-left">CPF</th>
-                <th className="px-4 py-2 text-left">Data de Nascimento</th>
-              </tr>
-            </thead>
-            <tbody>
-              {admins.map((admin) => (
-                <tr key={admin.userId} className="border-b">
-                  <td className="px-4 py-2">{admin.nome}</td>
-                  <td className="px-4 py-2">{admin.cpf}</td>
-                  <td className="px-4 py-2">{admin.dataNascimento}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {managementOptions.map(opt => (
+          <motion.div 
+            key={opt.title}
+            variants={cardVariants} 
+            whileHover="hover" 
+            onClick={() => navigate(opt.path)}
+            className="bg-white p-6 rounded-lg shadow-md cursor-pointer"
+          >
+            <h2 className="text-xl font-semibold text-gray-700">{opt.title}</h2>
+            <p className="text-gray-500 mt-2">{opt.description}</p>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
