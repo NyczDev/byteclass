@@ -33,12 +33,9 @@ const LoginForm = () => {
                     window.location.reload();
                     break;
                 case 'admin':
-                    navigate('/dashboard-admin');
+                    navigate('/admin');
                     window.location.reload();
                     break;
-                default:
-                    navigate('/');
-                    break; 
             }
         } catch (err: any) {
             localStorage.clear();
