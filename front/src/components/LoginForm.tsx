@@ -23,11 +23,22 @@ const LoginForm = () => {
             
             // Navega para a rota apropriada. A recarga da página não é necessária
             // em SPAs e foi removida para uma melhor experiência do usuário.
-            switch (usuario.role) {
-                case 'aluno': navigate('/minhas-notas'); break;
-                case 'professor': navigate('/professores'); break;
-                case 'admin': navigate('/admin'); break; // Rota unificada do admin
-                default: navigate('/'); break;
+           switch (usuario.role) {
+                case 'aluno':
+                    navigate('/minhas-notas');
+                    window.location.reload();
+                    break;
+                case 'professor':
+                    navigate('/professores');
+                    window.location.reload();
+                    break;
+                case 'admin':
+                    navigate('/dashboard-admin');
+                    window.location.reload();
+                    break;
+                default:
+                    navigate('/');
+                    break; 
             }
         } catch (err: any) {
             localStorage.clear();

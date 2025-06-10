@@ -39,7 +39,7 @@ const GerenciamentoConteudosPage = () => {
             await createConteudo(parseInt(materiaId), { titulo, descricao });
             setTitulo('');
             setDescricao('');
-            fetchConteudos(); // Refresh a lista
+            fetchConteudos(); 
         }
     };
 

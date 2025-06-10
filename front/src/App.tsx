@@ -41,7 +41,7 @@ function App() {
         <Route path="/materias/:materiaId/conteudos" element={<RequireAuth role={role} allowedRoles={['professor', 'admin']}><GerenciamentoConteudosPage /></RequireAuth>} />
 
         {/* Rotas do Admin */}
-        <Route path="/dashboard-admin" element={<RequireAuth role={role} allowedRoles={['admin']}><AdminPage /></RequireAuth>} />
+        <Route path="/admin" element={<RequireAuth role={role} allowedRoles={['admin']}><AdminPage /></RequireAuth>} />
         <Route path="/admin/professores" element={<RequireAuth role={role} allowedRoles={['admin']}><GerenciamentoProfessores /></RequireAuth>} />
         <Route path="/admin/alunos" element={<RequireAuth role={role} allowedRoles={['admin']}><GerenciamentoAlunos /></RequireAuth>} />
         <Route path="/admin/materias" element={<RequireAuth role={role} allowedRoles={['admin']}><GerenciamentoMaterias /></RequireAuth>} />

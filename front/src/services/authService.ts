@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export interface Usuario {
+  id: any;
   role: 'aluno' | 'professor' | 'admin' | string;
 }
 
