@@ -25,7 +25,7 @@ ByteClass is a web-based school management system developed to optimize the acad
 
 ## 🎥 Pitch Video
 
-[Pitch](https://drive.google.com/file/d/1jHKNWP5cXUjuQfifbXarQxpPC-aArRIa/view)
+https://drive.google.com/file/d/1jHKNWP5cXUjuQfifbXarQxpPC-aArRIa/view
 
 ---
 
