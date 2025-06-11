@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMateriasDoAluno } from '../services/alunoService';
 import { Materia } from '../services/materiaService';

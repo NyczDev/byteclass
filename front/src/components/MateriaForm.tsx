@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Materia, createMateria, updateMateria } from '../services/materiaService';
 import { getProfessores, Professor } from '../services/professorService';
 import { motion } from 'framer-motion';

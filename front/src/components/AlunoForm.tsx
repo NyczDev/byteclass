@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Aluno, createAluno, updateAluno } from '../services/alunoService';
 import { motion } from 'framer-motion';
-import { FaUser, FaIdCard, FaCalendarAlt, FaPhone, FaUsers, FaSave, FaTimes, FaSpinner } from 'react-icons/fa';
+import { FaUser, FaIdCard, FaCalendarAlt, FaPhone, FaUsers, FaSave, FaTimes } from 'react-icons/fa';
 
 const formatarDataParaInput = (dataStr: string | undefined | null): string => {
   if (!dataStr) return '';
@@ -135,7 +135,7 @@ const AlunoForm = ({ aluno, onClose, onSuccess }: AlunoFormProps) => {
             <div className="flex justify-end gap-4 pt-4">
               <button type="button" onClick={onClose} className="font-semibold py-2 px-5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 transition-colors">Cancelar</button>
               <button type="submit" disabled={isLoading} className="font-semibold py-2 px-5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 disabled:bg-blue-300 w-32">
-                {isLoading ? <FaSpinner className="animate-spin" /> : <><FaSave /> {aluno ? 'Salvar' : 'Criar'}</>}
+                <FaSave /> {aluno ? 'Salvar' : 'Criar'}
               </button>
             </div>
           </motion.div>

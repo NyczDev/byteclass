@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAlunos, Aluno } from '../services/alunoService';
 import { getMaterias, Materia } from '../services/materiaService';
 import { lancarNota } from '../services/notaService';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUserGraduate, FaBook, FaStar, FaPencilAlt, FaPaperPlane, FaSignOutAlt, FaArrowLeft, FaSpinner, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaUserGraduate, FaBook, FaStar, FaPencilAlt, FaPaperPlane, FaSignOutAlt, FaArrowLeft, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import Spinner from '../components/Spinner'; // Reutilize o spinner
 
 // --- Componente de Toast Notification ---

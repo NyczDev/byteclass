@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMaterias, deleteMateria, Materia } from '../services/materiaService';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlus, FaBook, FaEdit, FaTrash, FaArrowLeft, FaExclamationTriangle, FaSpinner } from 'react-icons/fa';
+import { FaPlus, FaBook, FaEdit, FaTrash, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
 import MateriaForm from '../components/MateriaForm'; // Seu componente de formulário
 import ConfirmModal from '../components/ConfirmModal'; 
 import Spinner from '../components/Spinner'; // Reutilize o spinner

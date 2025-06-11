@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTurmas, deleteTurma, Turma } from '../services/turmaService';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlus, FaUsers, FaEdit, FaTrash, FaArrowLeft, FaExclamationTriangle, FaSpinner } from 'react-icons/fa';
+import { FaPlus, FaUsers, FaEdit, FaTrash, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
 import TurmaForm from '../components/TurmaForm';
 import ConfirmModal from '../components/ConfirmModal'; // Reutilize o modal
 import Spinner from '../components/Spinner'; // Reutilize o spinner

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProfessores, deleteProfessor, Professor } from '../services/professorService';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUserPlus, FaEdit, FaTrash, FaArrowLeft, FaExclamationTriangle, FaChalkboardTeacher, FaSpinner } from 'react-icons/fa';
+import { FaUserPlus, FaEdit, FaTrash, FaArrowLeft, FaExclamationTriangle, FaChalkboardTeacher } from 'react-icons/fa';
 import ProfessorForm from '../components/ProfessorForm';
 import ConfirmModal from '../components/ConfirmModal'; // Reutilize o modal
 import Spinner from '../components/Spinner'; // Reutilize o spinner
