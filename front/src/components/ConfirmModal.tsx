@@ -21,7 +21,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ onConfirm, onCancel }) => {
         className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm"
       >
         <h2 className="text-lg font-semibold text-gray-800">Confirmar Exclusão</h2>
-        <p className="text-gray-600 mt-2">Você tem certeza que deseja excluir este aluno? Esta ação não pode ser desfeita.</p>
+        <p className="text-gray-600 mt-2">Você tem certeza que deseja excluir este usuario? Esta ação não pode ser desfeita.</p>
         <div className="flex justify-end gap-4 mt-6">
           <button onClick={onCancel} className="py-2 px-4 rounded-lg text-gray-700 bg-gray-100 hover:bg-gray-200 font-semibold transition-colors">
             Cancelar

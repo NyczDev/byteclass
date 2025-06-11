@@ -3,10 +3,6 @@ import { Aluno, createAluno, updateAluno } from '../services/alunoService';
 import { motion } from 'framer-motion';
 import { FaUser, FaIdCard, FaCalendarAlt, FaPhone, FaUsers, FaSave, FaTimes, FaSpinner } from 'react-icons/fa';
 
-/**
- * Converte uma string de data (que pode vir em formatos como DD/MM/YYYY, YYYY-MM-DD, ou ISO)
- * para o formato "YYYY-MM-DD", que é o formato exigido pelo <input type="date">.
- */
 const formatarDataParaInput = (dataStr: string | undefined | null): string => {
   if (!dataStr) return '';
   try {

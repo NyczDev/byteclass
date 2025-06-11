@@ -43,12 +43,8 @@ namespace byteclassAPI.Controllers
 
         // Listar notas de um aluno em uma matéria
         [HttpGet("materias/{materiaId}/alunos/{alunoId}/notas")]
-        public async Task<ActionResult<IEnumerable<Nota>>> GetNotasDoAlunoNaMateria(int materiaId, int alunoId, [FromHeader(Name = "X-Role")] string? role)
+        public async Task<ActionResult<IEnumerable<Nota>>> GetNotasDoAlunoNaMateria(int materiaId, int alunoId)
         {
-            // Adicionar lógica de permissão se necessário (ex: o próprio aluno pode ver)
-            if (!IsAdmin(role) && !IsProf(role))
-                return StatusCode(403, "Acesso negado.");
-
             var notas = await _appDbContext.Notas
                 .Where(n => n.MateriaId == materiaId && n.AlunoId == alunoId)
                 .Include(n => n.Materia)

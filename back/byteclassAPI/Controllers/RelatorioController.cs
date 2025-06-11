@@ -25,7 +25,7 @@ namespace byteclassAPI.Controllers
         public async Task<IActionResult> GetHistoricoAluno(int alunoId)
         {
             var aluno = await _appDbContext.Alunos
-                .AsNoTracking()
+
                 .FirstOrDefaultAsync(a => a.UserId == alunoId);
 
             if (aluno == null)
