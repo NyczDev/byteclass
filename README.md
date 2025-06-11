@@ -29,7 +29,3 @@ o gerenciamento de alunos, professores, turmas, disciplinas e notas, oferecendo 
 [Link Video]
 
 ---
-
-## 🌐 Acesso ao MVP
-
-[Link Publicado]
